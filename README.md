@@ -12,4 +12,8 @@ Udemy 講座
 
 # section2 - React Fundamentals
 
--
+-   fragment 使い方
+-   props の分割代入
+-   HOC
+-   基本的な useState
+-   配列処理 map key 忘れがち
