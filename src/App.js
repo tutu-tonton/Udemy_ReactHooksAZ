@@ -1,32 +1,58 @@
 import React, { useState } from 'react';
 
 import './App.scss';
+import NameTag from '../src/component/nameTag.component';
+
+//========================================
+//  18. Complex State
+//========================================
+const initialNames = [
+	{ firstName: 'john', lastName: 'johnson' },
+	{ firstName: 'peter', lastName: 'peterson' },
+	{ firstName: 'jill', lastName: 'jillson' },
+];
 
 const App = () => {
-	const [age, setAge] = useState(21);
-
-	const ageUpHandle = () => {
-		setAge(age + 1);
-	};
-	const ageDownHandle = () => {
-		setAge(age - 1);
-	};
+	const [names, setNames] = useState(initialNames);
 
 	return (
 		<div className="App">
 			<header className="App-header">
-				<h1>Use State Hook</h1>
-				<h2>Age: {age}</h2>
-				<button onClick={ageUpHandle}>Age Up</button>
-				<button onClick={ageDownHandle}>Age down</button>
+				<h1 className="name title">Names List</h1>
+				<NameTag firstName={names[0].firstName} lastName={names[0].lastName} />
+				<NameTag firstName={names[1].firstName} lastName={names[1].lastName} />
+				<NameTag firstName={names[2].firstName} lastName={names[2].lastName} />
 			</header>
 		</div>
 	);
 };
-
 export default App;
 
-// import NameTag from '../src/component/nameTag.component';
+//========================================
+//  17. 基本的なuseState
+//========================================
+// const App = () => {
+// 	const [age, setAge] = useState(21);
+
+// 	const ageUpHandle = () => {
+// 		setAge(age + 1);
+// 	};
+// 	const ageDownHandle = () => {
+// 		setAge(age - 1);
+// 	};
+
+// 	return (
+// 		<div className="App">
+// 			<header className="App-header">
+// 				<h1>Use State Hook</h1>
+// 				<h2>Age: {age}</h2>
+// 				<button onClick={ageUpHandle}>Age Up</button>
+// 				<button onClick={ageDownHandle}>Age down</button>
+// 			</header>
+// 		</div>
+// 	);
+// };
+// export default App;
 // //========================================
 // // 　HOC
 // // 　引数を必要として、さらにpropsも必要
