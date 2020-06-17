@@ -20,14 +20,30 @@ const App = () => {
 	// -> e.target.nameで判別可能
 	const removeItemHandle = (e) => {
 		console.dir(e.target.name);
+
 		// クリックされたアイテムを削除する
 		// => クリックされたアイテム以外で新配列作る
 		const filteredList = list.filter((ele) => ele.name !== e.target.name);
 		setList(filteredList);
 	};
 
+	// アイテム名ダブルクリックすると、編集可能にする
 	const makeEditableHandle = () => {
 		setEditable(true);
+	};
+
+	const keyPressHandle = (e, idx) => {
+		// console.log(e.key);	// どのキーが押されたかわかる。enterとかも
+		if (e.key === 'Enter') {
+			// 入力確定したら通常のテキスト表示に戻す
+			setEditable(!editable);
+			// 子の onKeyPress(e, props.index) によりイベントが起こったところのindex情報が渡されてきているか
+			// console.log(idx);
+			const copyList = [...list];
+			copyList[idx].name = e.target.value;
+
+			// console.log(e.target.value);
+		}
 	};
 
 	// // listからカロリーが50より多いものを削除する
@@ -50,6 +66,8 @@ const App = () => {
 							item={ele}
 							editable={editable}
 							onDoubleClick={makeEditableHandle}
+							onKeyPress={keyPressHandle}
+							index={idx}
 						/>
 					);
 				})}

@@ -7,8 +7,15 @@ const item = (props) => {
 		<div className="item-style">
 			{/* props.editable ? ダブルクリックで編集可能に : 編集不可 */}
 			{props.editable ? (
-				<input type="text" defaultValue={props.item.name} />
+				<input
+					type="text"
+					// キー入力すると、親のfunc発動
+					// 入力欄が複数あるから、どこで入力されたか情報をindexで渡す
+					onKeyPress={(e) => props.onKeyPress(e, props.index)}
+					defaultValue={props.item.name}
+				/>
 			) : (
+				// <input type="text" onKeyPress={props.onKeyPress} defaultValue={props.item.name} />
 				<h3 onDoubleClick={props.onDoubleClick}>{props.item.name}</h3>
 			)}
 			<h3>{props.item.calorie}</h3>
