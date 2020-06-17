@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import Item from './components/item.component';
+import useList from './hooks/useList';
 
 import './App.scss';
 
@@ -11,7 +12,8 @@ const initList = [
 ];
 
 const App = () => {
-	const [list, setList] = useState(initList);
+	const items = useList(initList);
+	// const [list, setList] = useState(initList);	// カスタムフックに置き換え
 	const [editable, setEditable] = useState(false);
 
 	// 各アイテムのボタンを押すと、そのアイテムが削除されるようにする
@@ -19,12 +21,14 @@ const App = () => {
 	// -> 各ボタンのname属性利用
 	// -> e.target.nameで判別可能
 	const removeItemHandle = (e) => {
-		console.dir(e.target.name);
+		// カスタムフックにまとめる
+		items.removeItem(e.target.name);
+		// console.dir(e.target.name);
 
 		// クリックされたアイテムを削除する
 		// => クリックされたアイテム以外で新配列作る
-		const filteredList = list.filter((ele) => ele.name !== e.target.name);
-		setList(filteredList);
+		// const filteredList = list.filter((ele) => ele.name !== e.target.name);
+		// setList(filteredList);
 	};
 
 	// アイテム名ダブルクリックすると、編集可能にする
@@ -32,15 +36,19 @@ const App = () => {
 		setEditable(true);
 	};
 
+	// 編集終わったら、入力値のテキスト表示
 	const keyPressHandle = (e, idx) => {
 		// console.log(e.key);	// どのキーが押されたかわかる。enterとかも
 		if (e.key === 'Enter') {
 			// 入力確定したら通常のテキスト表示に戻す
 			setEditable(!editable);
+
+			// カスタムフックにまとめる
+			items.saveItem(idx, e.target.value);
 			// 子の onKeyPress(e, props.index) によりイベントが起こったところのindex情報が渡されてきているか
 			// console.log(idx);
-			const copyList = [...list];
-			copyList[idx].name = e.target.value;
+			// const copyList = [...list];
+			// copyList[idx].name = e.target.value;
 
 			// console.log(e.target.value);
 		}
@@ -57,7 +65,8 @@ const App = () => {
 		<div className="App">
 			<header className="App-header">
 				<h2>Grocery List</h2>
-				{list.map((ele, idx) => {
+				{items.list.map((ele, idx) => {
+					// {list.map((ele, idx) => {
 					// 各ボタンが押された時の処理は、親側で処理する
 					return (
 						<Item
