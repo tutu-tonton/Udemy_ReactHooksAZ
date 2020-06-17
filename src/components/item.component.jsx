@@ -5,7 +5,12 @@ import './item.styles.scss';
 const item = (props) => {
 	return (
 		<div className="item-style">
-			<h3>{props.item.name}</h3>
+			{/* props.editable ? ダブルクリックで編集可能に : 編集不可 */}
+			{props.editable ? (
+				<input type="text" defaultValue={props.item.name} />
+			) : (
+				<h3 onDoubleClick={props.onDoubleClick}>{props.item.name}</h3>
+			)}
 			<h3>{props.item.calorie}</h3>
 			{/* 各ボタンにはname属性が設定される */}
 			{/* -> どのボタンが押されたか判別ができる */}

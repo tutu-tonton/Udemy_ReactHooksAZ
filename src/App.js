@@ -12,6 +12,7 @@ const initList = [
 
 const App = () => {
 	const [list, setList] = useState(initList);
+	const [editable, setEditable] = useState(false);
 
 	// 各アイテムのボタンを押すと、そのアイテムが削除されるようにする
 	// どのアイテムのボタンが押されたかを判別できないといけない
@@ -23,6 +24,10 @@ const App = () => {
 		// => クリックされたアイテム以外で新配列作る
 		const filteredList = list.filter((ele) => ele.name !== e.target.name);
 		setList(filteredList);
+	};
+
+	const makeEditableHandle = () => {
+		setEditable(true);
 	};
 
 	// // listからカロリーが50より多いものを削除する
@@ -38,7 +43,15 @@ const App = () => {
 				<h2>Grocery List</h2>
 				{list.map((ele, idx) => {
 					// 各ボタンが押された時の処理は、親側で処理する
-					return <Item onClick={removeItemHandle} key={`${idx}${ele.name}${ele.calorie}`} item={ele}></Item>;
+					return (
+						<Item
+							onClick={removeItemHandle}
+							key={`${idx}${ele.name}${ele.calorie}`}
+							item={ele}
+							editable={editable}
+							onDoubleClick={makeEditableHandle}
+						/>
+					);
 				})}
 				{/* <button onClick={removeUnhealthyHandle} className="remove-button">
 					Remove Unhealthy
