@@ -33,4 +33,4 @@ Udemy 講座
 
 -   29.useEffect - lifecycleMethod
 -   30.マウスポインターの位置イベント: e.clientX
--
+-   31.fetch Data, async-await
