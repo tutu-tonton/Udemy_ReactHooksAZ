@@ -28,3 +28,9 @@ Udemy 講座
 -   24.カスタムフック -> :raised_hands: state とそれに対するメソッドが１つにまとまる
 -   25.フォームは onChange イベントで値をコントロール
 -   26.useRef / ref.current.focus() / forwardRef
+
+# section4 - Component Lifecycle
+
+-   29.useEffect - lifecycleMethod
+-   30.マウスポインターの位置イベント: e.clientX
+-
