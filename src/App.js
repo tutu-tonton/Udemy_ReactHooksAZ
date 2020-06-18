@@ -1,42 +1,76 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
+
+import Child from './components/child.component';
 
 import './App.scss';
 
 //========================================
-//  31.
+//  32. useMemo
 //========================================
-const initProfile = {
-	followers: null,
-	publicRepos: null,
-};
 
 const App = () => {
-	const [profile, setProfile] = useState(initProfile);
+	const [i, setI] = useState(0);
 
-	const getProfile = async () => {
-		const response = await fetch('https://api.github.com/users/gitmil');
-		const json = await response.json();
-
-		setProfile({
-			followers: json.followers,
-			publicRepos: json.public_repos,
-		});
+	const onClickHandle = () => {
+		setI(i + 1);
 	};
 
-	useEffect(() => {
-		getProfile();
+	const memoChild = useMemo(() => {
+		return <Child />;
 	}, []);
+
 	return (
 		<div className="App">
 			<header className="App-header">
-				<h2>Fetch Data</h2>
-				<h3>{`followers: ${profile.followers}, repos: ${profile.publicRepos}`}</h3>
+				<h2> Use Memo</h2>
+				<h3>i: {i}</h3>
+				<button onClick={onClickHandle}>Increment I</button>
+				<h3>normal render</h3>
+				<Child />
+				<h3>Memo render</h3>
+				{memoChild}
 			</header>
 		</div>
 	);
 };
 
 export default App;
+
+//========================================
+//  31. fetch Data with async await
+//========================================
+// const initProfile = {
+// 	followers: null,
+// 	publicRepos: null,
+// };
+
+// const App = () => {
+// 	const [profile, setProfile] = useState(initProfile);
+
+// 	const getProfile = async () => {
+// 		const response = await fetch('https://api.github.com/users/gitmil');
+// 		const json = await response.json();
+
+// 		setProfile({
+// 			followers: json.followers,
+// 			publicRepos: json.public_repos,
+// 		});
+// 	};
+
+// 	useEffect(() => {
+// 		getProfile();
+// 	}, []);
+// 	return (
+// 		<div className="App">
+// 			<header className="App-header">
+// 				<h2>Fetch Data</h2>
+// 				<h3>{`followers: ${profile.followers}, repos: ${profile.publicRepos}`}</h3>
+// 			</header>
+// 		</div>
+// 	);
+// };
+
+// export default App;
 
 //========================================
 //  30. useEffectの例
