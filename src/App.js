@@ -1,40 +1,66 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
 
-import Child from './components/child.component';
+import usePrevious from './hooks/usePrevious';
 
 import './App.scss';
 
 //========================================
-//  32. useMemo
+//  33. customHook - usePrevious
+//  1つ前のstateを保存しておく。 useRef使う
 //========================================
-
 const App = () => {
-	const [i, setI] = useState(0);
-
-	const onClickHandle = () => {
-		setI(i + 1);
-	};
-
-	const memoChild = useMemo(() => {
-		return <Child />;
-	}, []);
+	const [age, setAge] = useState(21);
+	const previousAge = usePrevious(age);
 
 	return (
 		<div className="App">
 			<header className="App-header">
-				<h2> Use Memo</h2>
-				<h3>i: {i}</h3>
-				<button onClick={onClickHandle}>Increment I</button>
-				<h3>normal render</h3>
-				<Child />
-				<h3>Memo render</h3>
-				{memoChild}
+				<h2>Current Age: {age}</h2>
+				<h2>Previous Age: {previousAge}</h2>
+				<button onClick={() => setAge(age - 1)}>Make Me Younger</button>
 			</header>
 		</div>
 	);
 };
 
 export default App;
+
+//========================================
+//  32. useMemo
+//========================================
+// import React, { useState, useMemo } from 'react';
+
+// import Child from './components/child.component';
+
+// import './App.scss';
+
+// const App = () => {
+// 	const [i, setI] = useState(0);
+
+// 	const onClickHandle = () => {
+// 		setI(i + 1);
+// 	};
+
+// 	const memoChild = useMemo(() => {
+// 		return <Child />;
+// 	}, []);
+
+// 	return (
+// 		<div className="App">
+// 			<header className="App-header">
+// 				<h2> Use Memo</h2>
+// 				<h3>i: {i}</h3>
+// 				<button onClick={onClickHandle}>Increment I</button>
+// 				<h3>normal render</h3>
+// 				<Child />
+// 				<h3>Memo render</h3>
+// 				{memoChild}
+// 			</header>
+// 		</div>
+// 	);
+// };
+
+// export default App;
 
 //========================================
 //  31. fetch Data with async await

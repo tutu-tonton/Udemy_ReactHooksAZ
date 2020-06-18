@@ -34,3 +34,5 @@ Udemy 講座
 -   29.useEffect - lifecycleMethod
 -   30.マウスポインターの位置イベント: e.clientX
 -   31.fetch Data, async-await
+-   32.useMemo 書き方.
+-   33.custom Hook - usePrevious. １つ前の state を保存しておく。useRef 使う
