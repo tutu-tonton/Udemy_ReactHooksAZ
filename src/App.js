@@ -1,29 +1,68 @@
-import React, { useState } from 'react';
-
-import usePrevious from './hooks/usePrevious';
+import React, { useState, useRef, useLayoutEffect } from 'react';
 
 import './App.scss';
 
 //========================================
-//  33. customHook - usePrevious
-//  1つ前のstateを保存しておく。 useRef使う
+//  34. useLayoutEffect
+//  要素のサイズを測る
 //========================================
-const App = () => {
-	const [age, setAge] = useState(21);
-	const previousAge = usePrevious(age);
+const useDimension = (ele, val) => {
+	const [height, setHeight] = useState(0);
+	const [width, setWidth] = useState(0);
 
+	useLayoutEffect(() => {
+		let boundingBox = ele.current.getBoundingClientRect();
+		// console.log(JSON.stringify(boundingBox));  //
+		setHeight(boundingBox.height);
+		setWidth(boundingBox.width);
+	}, [val]);
+	return { height, width };
+};
+
+const App = () => {
+	const [val, setVal] = useState(2);
+	const valEl = useRef(null);
+
+	const { height, width } = useDimension(valEl, val);
 	return (
 		<div className="App">
 			<header className="App-header">
-				<h2>Current Age: {age}</h2>
-				<h2>Previous Age: {previousAge}</h2>
-				<button onClick={() => setAge(age - 1)}>Make Me Younger</button>
+				<h1>
+					Height: {height}, Width: {width}
+				</h1>
+				<div ref={valEl}>{val}</div>
+				<button onClick={() => setVal(val * 10)}>10*</button>
 			</header>
 		</div>
 	);
 };
 
 export default App;
+
+//========================================
+//  33. customHook - usePrevious
+//  1つ前のstateを保存しておく。 useRef使う
+//========================================
+// import React, { useState } from 'react';
+
+// import usePrevious from './hooks/usePrevious';
+
+// const App = () => {
+// 	const [age, setAge] = useState(21);
+// 	const previousAge = usePrevious(age);
+
+// 	return (
+// 		<div className="App">
+// 			<header className="App-header">
+// 				<h2>Current Age: {age}</h2>
+// 				<h2>Previous Age: {previousAge}</h2>
+// 				<button onClick={() => setAge(age - 1)}>Make Me Younger</button>
+// 			</header>
+// 		</div>
+// 	);
+// };
+
+// export default App;
 
 //========================================
 //  32. useMemo
