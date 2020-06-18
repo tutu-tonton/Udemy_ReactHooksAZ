@@ -1,41 +1,59 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import './App.scss';
 
+let born = false;
+
 const App = () => {
-	const [name, setName] = useState('default');
-	const [income, setIncome] = useState('high');
+	const [growth, setGrowth] = useState(0);
+	const [nirvana, setNirvana] = useState(false);
 
-	const handleNameChange = (e) => {
-		setName(e.target.value);
-	};
+	useEffect(() => {
+		if (born) {
+			document.title = 'nirvana attained';
+		}
+	}, [nirvana]);
 
-	const handleIncomeChange = (e) => {
-		setIncome(e.target.value);
-	};
+	// useEffect マウント時だけ実行されるパターン
+	useEffect(() => {
+		console.log('I am born!');
+	}, []);
 
-	const onSubmitHandle = (e) => {
-		e.preventDefault();
-		console.log(`state = ${name} / ${income}`);
+	// マウント＋レンダリング毎に実行されるパターン
+	// useEffect(() => {
+	// 	console.log('every updated!');  //
+	// });
+
+	// マウント時は実行しない
+	useEffect(() => {
+		if (born) {
+			console.log('make mistake and learn!'); //
+		} else {
+			born = true;
+		}
+
+		// ある一定値で実行
+		if (growth > 70) {
+			setNirvana(true);
+		}
+		// return (
+		//   const cleanup = () => {
+		//     console.log('cleanup after mistakes');
+		//   }
+		// )
+	});
+
+	const growHandle = () => {
+		setGrowth(growth + 10);
 	};
 
 	return (
-		<div className="App-header">
-			<form onSubmit={onSubmitHandle}>
-				<div>
-					<span>Name: </span>
-					<input value={name} type="text" onChange={handleNameChange}></input>
-				</div>
-				<div>
-					<span>Income: </span>
-					<select value={income} onChange={handleIncomeChange}>
-						<option value="high">High</option>
-						<option value="mid">Mid</option>
-						<option value="low">Low</option>
-					</select>
-					<input type="submit" value="submit"></input>
-				</div>
-			</form>
+		<div className="App">
+			<header className="App-header">
+				<h2>Use Effect</h2>
+				<h3>growth: {growth}</h3>
+				<button onClick={growHandle}>learn and grow</button>
+			</header>
 		</div>
 	);
 };
