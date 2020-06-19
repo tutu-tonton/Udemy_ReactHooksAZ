@@ -50,11 +50,23 @@
 	color: green;
 }
 
-.ul {
-	list-style: none;
+.ul-style {
+	display: flex;
+	flex-direction: row;
 }
+.li-style {
+	width: 300px;
+	list-style-type: none;
+	border: 1px solid rgba(255, 255, 255, 0.6);
+	padding: 1.5rem;
+}
+
 .button {
 	font-size: 20px;
 	padding: 1rem 3rem;
 	margin: 1rem;
+}
+
+input {
+	font-size: 40px;
 }

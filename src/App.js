@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter, Route, NavLink, Redirect } from 'react-router-dom';
+import { BrowserRouter, Route, NavLink, Redirect, Prompt } from 'react-router-dom';
 
 import AboutPage from './pages/AboutPage';
 
@@ -8,36 +8,49 @@ import './App.css';
 //========================================
 //  37. Route Links
 //  39. Redirect
+//  40. Route Prompt - 入力途中で離脱操作した時に、prompt出るように。
 //========================================
 const App = () => {
 	const [loggedIn, setLoggedIn] = useState(false);
+	const [age, setAge] = useState(null);
 
 	const onClickHandle = () => {
 		setLoggedIn(!loggedIn);
+	};
+
+	const onChangeHandle = (e) => {
+		setAge(e.target.value);
 	};
 
 	return (
 		<BrowserRouter>
 			<div className="App">
 				<header className="App-header">
-					<ul>
-						<li>
+					<ul className="ul-style">
+						<li className="li-style">
 							<NavLink className="App-link" to="/" exact activeClassName="Link-active-style">
 								Home
 							</NavLink>
 						</li>
-						<li>
+						<li className="li-style">
 							<NavLink className="App-link" to="/about" activeClassName="Link-active-style">
 								About Page
 							</NavLink>
 						</li>
-						<li>
+						<li className="li-style">
 							<NavLink className="App-link" to="/user/john/doe" activeClassName="Link-active-style">
 								User John Doe
 							</NavLink>
 						</li>
 					</ul>
-					{loggedIn.toString()}
+					<Prompt
+						// ログインしていて、ageに入力ない時、
+						when={loggedIn && !age}
+						message={(location) => {
+							return location.pathname.startsWith('/user') ? true : 'Are you sure?';
+						}}
+					></Prompt>
+					LogIn = {loggedIn.toString()}
 					<button className="button" onClick={onClickHandle}>
 						{loggedIn ? 'logout' : 'login'}
 					</button>
@@ -56,6 +69,9 @@ const App = () => {
 							console.log(match);
 							return loggedIn ? (
 								<h1>
+									Age: {age}
+									<input type="text" value={age} onChange={onChangeHandle}></input>
+									<br />
 									Welcome {match.params.firstname} {match.params.lastname}
 								</h1>
 							) : (
