@@ -1,43 +1,77 @@
-import React, { useState, useRef, useLayoutEffect } from 'react';
+import React, { useState } from 'react';
+import useCustomFetch from './hooks/useCustomFetch.js';
 
 import './App.scss';
 
 //========================================
-//  34. useLayoutEffect
-//  要素のサイズを測る
+//  36. useCustomFetch
 //========================================
-const useDimension = (ele, val) => {
-	const [height, setHeight] = useState(0);
-	const [width, setWidth] = useState(0);
-
-	useLayoutEffect(() => {
-		let boundingBox = ele.current.getBoundingClientRect();
-		// console.log(JSON.stringify(boundingBox));  //
-		setHeight(boundingBox.height);
-		setWidth(boundingBox.width);
-	}, [val]);
-	return { height, width };
-};
-
 const App = () => {
-	const [val, setVal] = useState(2);
-	const valEl = useRef(null);
+	const [url, setUrl] = useState(null);
+	const [data, loading, error] = useCustomFetch(url);
 
-	const { height, width } = useDimension(valEl, val);
+	const getFollowers = (e) => {
+		if (e.key === 'Enter') {
+			setUrl('https://api.github.com/users/' + e.target.val);
+		}
+	};
+
 	return (
 		<div className="App">
 			<header className="App-header">
-				<h1>
-					Height: {height}, Width: {width}
-				</h1>
-				<div ref={valEl}>{val}</div>
-				<button onClick={() => setVal(val * 10)}>10*</button>
+				<h2>GitID</h2>
+				<input onKeyPress={getFollowers}></input>
+
+				{loading && url && <div>Loading...</div>}
+				{!loading && data && data && data.rData && data.rData.followers && (
+					<div>Followers: {data.rData.followers}</div>
+				)}
+				{error && <div>Error: {error}</div>}
 			</header>
 		</div>
 	);
 };
 
 export default App;
+
+//========================================
+//  34. useLayoutEffect
+//  要素のサイズを測る
+//========================================
+// import React, { useState, useRef, useLayoutEffect } from 'react';
+
+// const useDimension = (ele, val) => {
+// 	const [height, setHeight] = useState(0);
+// 	const [width, setWidth] = useState(0);
+
+// 	useLayoutEffect(() => {
+// 		let boundingBox = ele.current.getBoundingClientRect();
+// 		// console.log(JSON.stringify(boundingBox));  //
+// 		setHeight(boundingBox.height);
+// 		setWidth(boundingBox.width);
+// 	}, [val]);
+// 	return { height, width };
+// };
+
+// const App = () => {
+// 	const [val, setVal] = useState(2);
+// 	const valEl = useRef(null);
+
+// 	const { height, width } = useDimension(valEl, val);
+// 	return (
+// 		<div className="App">
+// 			<header className="App-header">
+// 				<h1>
+// 					Height: {height}, Width: {width}
+// 				</h1>
+// 				<div ref={valEl}>{val}</div>
+// 				<button onClick={() => setVal(val * 10)}>10*</button>
+// 			</header>
+// 		</div>
+// 	);
+// };
+
+// export default App;
 
 //========================================
 //  33. customHook - usePrevious
