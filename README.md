@@ -38,3 +38,8 @@ Udemy 講座
 -   33.custom Hook - usePrevious. １つ前の state を保存しておく。useRef 使う
 -   34.useLayoutEffect - 要素のサイズを測る
 -   36.useCustomFetch - fetch 部分モジュール化。url 設定するだけでデータ取ってくる
+
+# section5 - React Router
+
+-   37.Router 基本。パラメータ渡し。match.params.xxx
+-
