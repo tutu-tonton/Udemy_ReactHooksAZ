@@ -1,5 +1,5 @@
-import React from 'react';
-import { BrowserRouter, Route, NavLink } from 'react-router-dom';
+import React, { useState } from 'react';
+import { BrowserRouter, Route, NavLink, Redirect } from 'react-router-dom';
 
 import AboutPage from './pages/AboutPage';
 
@@ -7,8 +7,15 @@ import './App.css';
 
 //========================================
 //  37. Route Links
+//  39. Redirect
 //========================================
 const App = () => {
+	const [loggedIn, setLoggedIn] = useState(false);
+
+	const onClickHandle = () => {
+		setLoggedIn(!loggedIn);
+	};
+
 	return (
 		<BrowserRouter>
 			<div className="App">
@@ -30,6 +37,10 @@ const App = () => {
 							</NavLink>
 						</li>
 					</ul>
+					{loggedIn.toString()}
+					<button className="button" onClick={onClickHandle}>
+						{loggedIn ? 'logout' : 'login'}
+					</button>
 					<Route
 						path="/"
 						exact
@@ -43,10 +54,12 @@ const App = () => {
 						exact
 						render={({ match }) => {
 							console.log(match);
-							return (
+							return loggedIn ? (
 								<h1>
 									Welcome {match.params.firstname} {match.params.lastname}
 								</h1>
+							) : (
+								<Redirect to="/"></Redirect>
 							);
 						}}
 					/>
