@@ -1,16 +1,14 @@
 import React, { useContext } from 'react';
 import messageContext from './../contexts/messageContext';
-import Outer from './components/outer.component';
 
-const AboutPage = () => {
+const HomePage = () => {
 	return (
 		// <> : Fragmentの書き方
 		<>
-			<h1>Welcome AboutPage</h1>
+			<h1>Welcome HomePage</h1>
 			<h2>Message {useContext(messageContext)}</h2>
-			<Outer></Outer>
 		</>
 	);
 };
 
-export default AboutPage;
+export default HomePage;
